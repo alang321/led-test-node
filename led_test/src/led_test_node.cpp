@@ -36,7 +36,7 @@ int main(int argc, char **argv)
     led_msg2.index = 1;
     led_msg2.r = 255;
     led_msg2.g = 0;
-    led_msg2.b = 0;
+    led_msg2.b = 255;
     srv.request.leds.push_back(led_msg2);
     
     // Call the service
