@@ -11,11 +11,11 @@ int main(int argc, char **argv)
     ros::NodeHandle nh;
     ROS_INFO("Starting led_test_node.");
 
-    ros::service::waitForService("set_leds");
+    ros::service::waitForService("/led/set_leds");
     ROS_INFO("Service found.");
     
     // Create a ROS service client
-    ros::ServiceClient client = nh.serviceClient<led_msgs::SetLEDs>("set_leds");
+    ros::ServiceClient client = nh.serviceClient<led_msgs::SetLEDs>("/led/set_leds");
 
     // Create a service message
     led_msgs::SetLEDs srv;
