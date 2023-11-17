@@ -25,9 +25,9 @@ int main(int argc, char **argv)
     // Fill in the LED data. This is just an example; you should replace it with your actual LED data.
     led_msgs::LEDState led_msg1;
     led_msg1.index = 0;
-    led_msg1.r = 0;
-    led_msg1.g = 255;
-    led_msg1.b = 0;
+    led_msg1.r = 255;
+    led_msg1.g = 0;
+    led_msg1.b = 255;
     srv.request.leds.push_back(led_msg1);
     
     
