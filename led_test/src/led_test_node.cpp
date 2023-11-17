@@ -10,12 +10,17 @@ int main(int argc, char **argv)
     ros::init(argc, argv, "led_test_node");
     ros::NodeHandle nh;
     ROS_INFO("Starting led_test_node.");
+
+    ros::service::waitForService("set_leds");
+    ROS_INFO("Service found.");
     
     // Create a ROS service client
     ros::ServiceClient client = nh.serviceClient<led_msgs::SetLEDs>("set_leds");
 
     // Create a service message
     led_msgs::SetLEDs srv;
+
+
 
     // Fill in the LED data. This is just an example; you should replace it with your actual LED data.
     led_msgs::LEDState led_msg1;

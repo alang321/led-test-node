@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>led_test</name>
+  <version>0.0.0</version>
+  <description>The led_test package</description>
+
+  <maintainer email="a.e.lang@student.tudelft.nl">anton lang</maintainer>
+  <license>MIT</license>
+  
+    <buildtool_depend>catkin</buildtool_depend>
+  <build_depend>roscpp</build_depend>
+  <build_depend>std_msgs</build_depend>
+  <build_depend>roslaunch</build_depend>
+  <build_depend>ws281x</build_depend>
+  <build_depend>led_msgs</build_depend>
+  <build_export_depend>roscpp</build_export_depend>
+  <build_export_depend>std_msgs</build_export_depend>
+  <build_export_depend>roslaunch</build_export_depend>
+  <build_export_depend>ws281x</build_export_depend>
+  <build_export_depend>led_msgs</build_export_depend>
+  <exec_depend>roscpp</exec_depend>
+  <exec_depend>std_msgs</exec_depend>
+  <exec_depend>roslaunch</exec_depend>
+  <exec_depend>ws281x</exec_depend>
+  <exec_depend>led_msgs</exec_depend>
+
+  <export>
+    <!-- Other tools can request additional information be placed here -->
+  </export>
+</package>
