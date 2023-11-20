@@ -46,14 +46,20 @@ int main(int argc, char **argv)
             led_msg.index = i;
 
             // Calculate HSV values for rainbow effect
+    	    float normalized_iteration = static_cast<float>(iteration) / (rate_hz * duration);
+            ROS_INFO("Normalized Iteration: %.2f", normalized_iteration);
+
+            float hue = fmod(normalized_iteration + i / static_cast<float>(num_leds), 1.0);
+            ROS_INFO("Hue for LED %d: %.2f", i, hue);
+
             float hue = fmod(static_cast<float>(iteration) / (rate_hz * duration) + i / static_cast<float>(num_leds), 1.0);
             int rgb[3];
             hsvToRgb(hue, 1.0, 1.0, rgb);
-
+		
             led_msg.r = rgb[0];
             led_msg.g = rgb[1];
             led_msg.b = rgb[2];
-
+            ROS_INFO("LED %d - RGB: %d, %d, %d", i, rgb[0], rgb[1], rgb[2]);
             srv.request.leds.push_back(led_msg);
         }
 
@@ -66,7 +72,6 @@ int main(int argc, char **argv)
         // Increment the iteration for the next cycle
         iteration++;
 
-        // Check up on what this does
         ros::spinOnce();
 
         rate.sleep();
