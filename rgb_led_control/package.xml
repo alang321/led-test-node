@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <package format="2">
-  <name>led_test</name>
+  <name>rgb_led_control</name>
   <version>0.0.0</version>
-  <description>The led_test package</description>
+  <description>The rgb_led_control package</description>
 
   <maintainer email="a.e.lang@student.tudelft.nl">anton lang</maintainer>
   <license>MIT</license>
