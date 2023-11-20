@@ -28,10 +28,11 @@ int main(int argc, char **argv)
     ros::NodeHandle nh;
 
     int num_leds;
-    nh.param("dma", num_leds, 2);
+    nh.param("num_leds", num_leds, 2);
     ROS_INFO("Number of LEDs is %d", num_leds);
 
     ros::service::waitForService("/led/set_leds");
+    ROS_INFO("LED driver found");
     
     // Create a ROS service client
     ros::ServiceClient client = nh.serviceClient<led_msgs::SetLEDs>("/led/set_leds");
@@ -60,10 +61,8 @@ int main(int argc, char **argv)
 
             // Calculate HSV values for rainbow effect
     	    float normalized_iteration = static_cast<float>(iteration) / (rate_hz * duration);
-            ROS_INFO("Normalized Iteration: %.2f", normalized_iteration);
 
             float hue = fmod(normalized_iteration + i / static_cast<float>(num_leds), 1.0);
-            ROS_INFO("Hue for LED %d: %.2f", i, hue);
 
 	        hsv HSV = (hsv){.h = hue*360, .s = 1.0, .v = 1.0};
             rgb RGB = hsv2rgb(HSV);
@@ -71,7 +70,6 @@ int main(int argc, char **argv)
             led_msg.r = static_cast<int>(RGB.r * 255.0);
             led_msg.g = static_cast<int>(RGB.g * 255.0);
             led_msg.b = static_cast<int>(RGB.b * 255.0);
-            ROS_INFO("LED %d - RGB: %d, %d, %d", i, led_msg.r, led_msg.b, led_msg.g);
             srv.request.leds.push_back(led_msg);
         }
 
