@@ -10,7 +10,7 @@
 		<param name="invert" value="false"/>
 	    </node>
     
-	<node name="rainbow_led_node" type="rainbow_led_node" pkg="squirrel_led_control" output="screen"/>
+	<node name="rainbow_led" type="rainbow_led_node" pkg="rainbow_led" output="screen"/>
     
 </launch>
 
