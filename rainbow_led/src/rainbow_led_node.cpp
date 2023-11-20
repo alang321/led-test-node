@@ -8,9 +8,9 @@
 int main(int argc, char **argv)
 {
     //led_msgs::SetLEDs::Request&
-    ros::init(argc, argv, "led_test_node");
+    ros::init(argc, argv, "rainbow_led_node");
     ros::NodeHandle nh;
-    ROS_INFO("Starting led_test_node.");
+    ROS_INFO("Starting rainbow_led_node.");
 
     ros::service::waitForService("/led/set_leds");
     ROS_INFO("Service found.");

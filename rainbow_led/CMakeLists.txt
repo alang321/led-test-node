@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.0.2)
-project(rgb_led_control)
+project(rainbow_led)
 
 find_package(catkin REQUIRED COMPONENTS
   roscpp
@@ -19,8 +19,8 @@ include_directories(
 )
 
 
-add_executable(rgb_led_control_node src/led_test_node.cpp)
-target_link_libraries(rgb_led_control_node ${catkin_LIBRARIES})
+add_executable(rainbow_led_node src/rainbow_led_node.cpp)
+target_link_libraries(rainbow_led_node ${catkin_LIBRARIES})
 
 
-add_dependencies(rgb_led_control_node ${catkin_EXPORTED_TARGETS})
+add_dependencies(rainbow_led_node ${catkin_EXPORTED_TARGETS})

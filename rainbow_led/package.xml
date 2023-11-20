@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <package format="2">
-  <name>rgb_led_control</name>
+  <name>rainbow_led</name>
   <version>0.0.0</version>
-  <description>The rgb_led_control package</description>
+  <description>The rainbow_led package</description>
 
   <maintainer email="a.e.lang@student.tudelft.nl">anton lang</maintainer>
   <license>MIT</license>
