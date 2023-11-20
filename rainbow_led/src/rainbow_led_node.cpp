@@ -4,6 +4,8 @@
 #include <led_msgs/LEDStateArray.h>
 #include <cmath>
 
+void hsvToRgb(float h, float s, float v, int rgb[3]);
+
 //main function for the opencv person detector node, which creates the opencv person detector object and spinnnnns
 int main(int argc, char **argv)
 {
