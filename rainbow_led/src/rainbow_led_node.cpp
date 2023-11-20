@@ -52,7 +52,6 @@ int main(int argc, char **argv)
             float hue = fmod(normalized_iteration + i / static_cast<float>(num_leds), 1.0);
             ROS_INFO("Hue for LED %d: %.2f", i, hue);
 
-            float hue = fmod(static_cast<float>(iteration) / (rate_hz * duration) + i / static_cast<float>(num_leds), 1.0);
             int rgb[3];
             hsvToRgb(hue, 1.0, 1.0, rgb);
 		
