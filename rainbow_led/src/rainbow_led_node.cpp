@@ -26,10 +26,12 @@ int main(int argc, char **argv)
     //led_msgs::SetLEDs::Request&
     ros::init(argc, argv, "rainbow_led_node");
     ros::NodeHandle nh;
-    ROS_INFO("Starting rainbow_led_node.");
+
+    int num_leds;
+    nh.param("dma", num_leds, 2);
+    ROS_INFO("Number of LEDs is %d", num_leds);
 
     ros::service::waitForService("/led/set_leds");
-    ROS_INFO("Service found.");
     
     // Create a ROS service client
     ros::ServiceClient client = nh.serviceClient<led_msgs::SetLEDs>("/led/set_leds");
@@ -37,14 +39,11 @@ int main(int argc, char **argv)
     // Create a service message
     led_msgs::SetLEDs srv;
 
-
-
-    int num_leds = 2;
     
 
     // Set the initial iteration value
     int iteration = 0;
-    float duration = 7.0f;
+    float duration = 10.0f;
     int rate_hz = 10;
 
     // Loop at 20Hz until the node is shut down
