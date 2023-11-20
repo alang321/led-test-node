@@ -4,7 +4,21 @@
 #include <led_msgs/LEDStateArray.h>
 #include <cmath>
 
-void hsvToRgb(float h, float s, float v, int rgb[3]);
+
+typedef struct {
+    double r;       // ∈ [0, 1]
+    double g;       // ∈ [0, 1]
+    double b;       // ∈ [0, 1]
+} rgb;
+
+typedef struct {
+    double h;       // ∈ [0, 360]
+    double s;       // ∈ [0, 1]
+    double v;       // ∈ [0, 1]
+} hsv;
+
+
+rgb hsv2rgb(hsv HSV)
 
 //main function for the opencv person detector node, which creates the opencv person detector object and spinnnnns
 int main(int argc, char **argv)
@@ -52,13 +66,13 @@ int main(int argc, char **argv)
             float hue = fmod(normalized_iteration + i / static_cast<float>(num_leds), 1.0);
             ROS_INFO("Hue for LED %d: %.2f", i, hue);
 
-            int rgb[3];
-            hsvToRgb(hue, 1.0, 1.0, rgb);
+	        hsv HSV = (hsv){.h = hue*360, .s = 1.0, .v = 1.0};
+            rgb RGB = hsv2rgb(HSV);
 		
-            led_msg.r = rgb[0];
-            led_msg.g = rgb[1];
-            led_msg.b = rgb[2];
-            ROS_INFO("LED %d - RGB: %d, %d, %d", i, rgb[0], rgb[1], rgb[2]);
+            led_msg.r = static_cast<int>(RGB.r * 255.0);
+            led_msg.g = static_cast<int>(RGB.g * 255.0);
+            led_msg.b = static_cast<int>(RGB.b * 255.0);
+            ROS_INFO("LED %d - RGB: %d, %d, %d", i, led_msg.r, led_msg.b, led_msg.g);
             srv.request.leds.push_back(led_msg);
         }
 
@@ -81,56 +95,34 @@ int main(int argc, char **argv)
 }
 
 
-void hsvToRgb(float h, float s, float v, int rgb[3])
+rgb hsv2rgb(hsv HSV)
 {
-    int i;
-    float f, p, q, t;
+    rgb RGB;
+    double H = HSV.h, S = HSV.s, V = HSV.v,
+            P, Q, T,
+            fract;
 
-    if (s == 0)
-    {
-        // achromatic (grey)
-        rgb[0] = rgb[1] = rgb[2] = static_cast<int>(v * 255);
-        return;
-    }
+    (H == 360.)?(H = 0.):(H /= 60.);
+    fract = H - floor(H);
 
-    h /= 60;            // sector 0 to 5
-    i = static_cast<int>(std::floor(h));
-    f = h - i;          // factorial part of h
-    p = v * (1 - s);
-    q = v * (1 - s * f);
-    t = v * (1 - s * (1 - f));
+    P = V*(1. - S);
+    Q = V*(1. - S*fract);
+    T = V*(1. - S*(1. - fract));
 
-    switch (i)
-    {
-    case 0:
-        rgb[0] = static_cast<int>(v * 255);
-        rgb[1] = static_cast<int>(t * 255);
-        rgb[2] = static_cast<int>(p * 255);
-        break;
-    case 1:
-        rgb[0] = static_cast<int>(q * 255);
-        rgb[1] = static_cast<int>(v * 255);
-        rgb[2] = static_cast<int>(p * 255);
-        break;
-    case 2:
-        rgb[0] = static_cast<int>(p * 255);
-        rgb[1] = static_cast<int>(v * 255);
-        rgb[2] = static_cast<int>(t * 255);
-        break;
-    case 3:
-        rgb[0] = static_cast<int>(p * 255);
-        rgb[1] = static_cast<int>(q * 255);
-        rgb[2] = static_cast<int>(v * 255);
-        break;
-    case 4:
-        rgb[0] = static_cast<int>(t * 255);
-        rgb[1] = static_cast<int>(p * 255);
-        rgb[2] = static_cast<int>(v * 255);
-        break;
-    default:    // case 5:
-        rgb[0] = static_cast<int>(v * 255);
-        rgb[1] = static_cast<int>(p * 255);
-        rgb[2] = static_cast<int>(q * 255);
-        break;
-    }
+    if      (0. <= H && H < 1.)
+        RGB = (rgb){.r = V, .g = T, .b = P};
+    else if (1. <= H && H < 2.)
+        RGB = (rgb){.r = Q, .g = V, .b = P};
+    else if (2. <= H && H < 3.)
+        RGB = (rgb){.r = P, .g = V, .b = T};
+    else if (3. <= H && H < 4.)
+        RGB = (rgb){.r = P, .g = Q, .b = V};
+    else if (4. <= H && H < 5.)
+        RGB = (rgb){.r = T, .g = P, .b = V};
+    else if (5. <= H && H < 6.)
+        RGB = (rgb){.r = V, .g = P, .b = Q};
+    else
+        RGB = (rgb){.r = 0., .g = 0., .b = 0.};
+
+    return RGB;
 }
