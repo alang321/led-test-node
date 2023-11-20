@@ -18,7 +18,7 @@ typedef struct {
 } hsv;
 
 
-rgb hsv2rgb(hsv HSV)
+rgb hsv2rgb(hsv HSV);
 
 //main function for the opencv person detector node, which creates the opencv person detector object and spinnnnns
 int main(int argc, char **argv)
